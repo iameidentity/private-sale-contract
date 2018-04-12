@@ -1,13 +1,13 @@
 pragma solidity ^0.4.18;
 
 /**
- * IAME PRESALE CONTRACT
+ * IAME PRIVATE SALE CONTRACT
  *
  * Version 0.1
  *
- * Author IAME Ltd
+ * Author IAME Limited
  *
- * MIT LICENSE Copyright 2018 IAME Ltd
+ * MIT LICENSE Copyright 2018 IAME Limited
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,15 +26,29 @@ pragma solidity ^0.4.18;
  * SOFTWARE.
  **/
 
-
 /**
  *
- * Important information about the IAME token presale
+ * Important information about the IAME Token Private Sale
  *
- * For details about the IAME token presale, and in particular to find out
+ * For details about the IAME Token Private Sale, and in particular to find out
  * about risks and limitations, please visit:
  *
- * http://www.iame.io
+ * https://www.iame.io
+ * 
+ **/
+ 
+/**
+ * Private Sale Contract Guide:
+ * 
+ * Start Date: 18 April 2018 at 00:01 GMT+4 (± 10 min).
+ * Contributions to this contract made before Start Date will be returned to sender.
+ * Closing Date: 20 May 2018 at 2018 at 23:59 GMT+4 (± 10 min).
+ * Contributions to this contract made after End Date will be returned to sender.
+ * Minimum Contribution for this Private Sale is 1 Ether.
+ * Contributions of less than 1 Ether will be returned to sender.
+ * Contributors will receive IAM Tokens at the rate of 20,000 IAM per Ether.
+ * IAM Tokens will not be transferred to any other address than the contributing address.
+ * IAM Tokens will be distributed to contributing address no later than 3 weeks after ICO Start.
  *
  **/
 
@@ -55,15 +69,15 @@ contract Owned {
 }
 
 /// ----------------------------------------------------------------------------------------
-/// @title IAME Presale Contract
+/// @title IAME Private Sale Contract
 /// @author IAME Ltd
 /// @dev Changes to this contract will invalidate any security audits done before.
 /// ----------------------------------------------------------------------------------------
-contract IAMEPresale is Owned {
+contract IAMEPrivateSale is Owned {
   // -------------------------------------------------------------------------------------
   // TODO Before deployment of contract to Mainnet
   // 1. Confirm MINIMUM_PARTICIPATION_AMOUNT below
-  // 2. Adjust PRESALE_START_DATE and confirm the presale period
+  // 2. Adjust PRIVATESALE_START_DATE and confirm the Private Sale period
   // 3. Test the deployment to a dev blockchain or Testnet
   // 4. A stable version of Solidity has been used. Check for any major bugs in the
   //    Solidity release announcements after this version.
@@ -75,14 +89,14 @@ contract IAMEPresale is Owned {
   // Minimum amount per transaction for public participants
   uint256 public constant MINIMUM_PARTICIPATION_AMOUNT = 1 ether;
 
-  // Public presale period
-  uint256 public PRESALE_START_DATE;
-  uint256 public PRESALE_END_DATE;
+  // Private Sale period
+  uint256 public PRIVATESALE_START_DATE;
+  uint256 public PRIVATESALE_END_DATE;
 
   /// @notice This is the constructor to set the dates
-  function IAMEPresale() public{
-    PRESALE_START_DATE = now + 10 * 1 minutes; // 'now' is the block timestamp
-    PRESALE_END_DATE = now + 1 weeks;
+  function IAMEPrivateSale() public{
+    PRIVATESALE_START_DATE = now + 10 * 1 minutes; // 'now' is the block timestamp
+    PRIVATESALE_END_DATE = now + 1 days;
   }
 
   /// @notice Keep track of all participants contributions, including both the
@@ -96,25 +110,25 @@ contract IAMEPresale is Owned {
 
 
   /// @notice A participant sends a contribution to the contract's address
-  ///         between the PRESALE_STATE_DATE and the PRESALE_END_DATE
+  ///         between the PRIVATESALE_STATE_DATE and the PRIVATESALE_END_DATE
   /// @notice Only contributions bigger than the MINIMUM_PARTICIPATION_AMOUNT
   ///         are accepted. Otherwise the transaction
   ///         is rejected and contributed amount is returned to the participant's
   ///         account
-  /// @notice A participant's contribution will be rejected if the presale
+  /// @notice A participant's contribution will be rejected if the Private Sale
   ///         has been funded to the maximum amount
   function () public payable {
-    // A participant cannot send funds before the presale start date
-    if (now < PRESALE_START_DATE) revert();
-    // A participant cannot send funds after the presale end date
-    if (now > PRESALE_END_DATE) revert();
+    // A participant cannot send funds before the Private Sale Start Date
+    if (now < PRIVATESALE_START_DATE) revert();
+    // A participant cannot send funds after the Private Sale End Date
+    if (now > PRIVATESALE_END_DATE) revert();
     // A participant cannot send less than the minimum amount
     if (msg.value < MINIMUM_PARTICIPATION_AMOUNT) revert();
     // Register the participant's contribution
     addBalance(msg.sender, msg.value);
   }
 
-  /// @notice The owner can withdraw ethers already during presale,
+  /// @notice The owner can withdraw ethers already during Private Sale,
   function ownerWithdraw(uint256 value) external onlyOwner {
     if (!owner.send(value)) revert();
   }
