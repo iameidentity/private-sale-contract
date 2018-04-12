@@ -40,9 +40,9 @@ pragma solidity ^0.4.18;
 /**
  * Private Sale Contract Guide:
  * 
- * Start Date: 18 April 2018 at 00:01 GMT+4 (± 10 min).
+ * Start Date: 18 April 2018.
  * Contributions to this contract made before Start Date will be returned to sender.
- * Closing Date: 20 May 2018 at 2018 at 23:59 GMT+4 (± 10 min).
+ * Closing Date: 20 May 2018 at 2018.
  * Contributions to this contract made after End Date will be returned to sender.
  * Minimum Contribution for this Private Sale is 1 Ether.
  * Contributions of less than 1 Ether will be returned to sender.
