@@ -95,8 +95,8 @@ contract IAMEPrivateSale is Owned {
 
   /// @notice This is the constructor to set the dates
   function IAMEPrivateSale() public{
-    PRIVATESALE_START_DATE = now + 10 * 1 minutes; // 'now' is the block timestamp
-    PRIVATESALE_END_DATE = now + 1 days;
+    PRIVATESALE_START_DATE = now + 5 days; // 'now' is the block timestamp
+    PRIVATESALE_END_DATE = now + 40 days;
   }
 
   /// @notice Keep track of all participants contributions, including both the
